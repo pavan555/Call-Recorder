@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Call Recorder</string>
+    <string name="no_records">Your recordings will appear here</string>
+    <string name="finish_deleted">Finished</string>
+    <string name="finished_pos" formatted="false">Current position (%d,%d)</string>
+    <string name="channel_id">my_channel</string>
+    <string name="rename_file">Rename</string>
+</resources>
