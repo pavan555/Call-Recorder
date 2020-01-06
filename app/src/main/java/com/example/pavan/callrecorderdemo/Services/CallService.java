@@ -55,7 +55,7 @@ public class CallService extends Service implements FloatingViewListener {
 
 
     private boolean pause=false;
-    SQLiteStatement sqLiteStatement=MainActivity.sqLiteDatabase.compileStatement("INSERT INTO RECORDS(fileName,time,phoneNumber) VALUES(?,?,?)");
+    SQLiteStatement sqLiteStatement=Receiver.sqLiteDatabase.compileStatement("INSERT INTO RECORDS(fileName,time,phoneNumber) VALUES(?,?,?)");
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
@@ -100,7 +100,7 @@ public class CallService extends Service implements FloatingViewListener {
                         audioRecorder=new AudioRecorder(finalPath);
                         audioRecorder.start();
                         sqLiteStatement.execute();
-                        MainActivity.checkRecords();
+                        MainActivity.checkRecords(Receiver.sqLiteDatabase);
                         Toast.makeText(CallService.this,"recording",Toast.LENGTH_SHORT).show();
 
                     } catch (Exception e) {
@@ -182,6 +182,7 @@ public class CallService extends Service implements FloatingViewListener {
         destroy();
         if(audioRecorder != null)
             audioRecorder.stop();
+        Receiver.sqLiteDatabase.close();
         super.onDestroy();
 //        WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 //        windowManager.removeView(view);

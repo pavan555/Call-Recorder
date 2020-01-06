@@ -119,7 +119,6 @@ public class AudioEditActivity extends AppCompatActivity {
     public void play(View view) {
         if(mediaPlayer!=null) {
 
-
             if(!pause) {
                 mediaPlayer.start();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

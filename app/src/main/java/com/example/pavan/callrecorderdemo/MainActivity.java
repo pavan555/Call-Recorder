@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                checkRecords();
+                checkRecords(sqLiteDatabase);
             }
         },5000);
 
@@ -182,15 +182,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static void checkRecords(){
+    public  static void checkRecords(SQLiteDatabase database){
 //        String path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/recordedCalls";
 //        File directory=new File(path);
 //        File[] files=directory.listFiles();
 
-        int count= (int) DatabaseUtils.queryNumEntries(sqLiteDatabase,"RECORDS");
+        int count= (int) DatabaseUtils.queryNumEntries(database,"RECORDS");
 
         if(count > RECORDS_LENGTH){
-            Cursor c=sqLiteDatabase.rawQuery("SELECT * FROM RECORDS ORDER BY ID DESC LIMIT 1",null);
+            Cursor c=database.rawQuery("SELECT * FROM RECORDS ORDER BY ID DESC LIMIT 1",null);
             c.moveToFirst();
             if(!c.isAfterLast()){
                 records.add(c.getString(1));
@@ -268,10 +268,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        sqLiteDatabase.close();
+        super.onDestroy();
+    }
 
     /*
-    Menu Creation
-     */
+        Menu Creation
+         */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
